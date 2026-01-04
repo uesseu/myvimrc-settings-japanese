@@ -1,0 +1,30 @@
+########################################
+# English for japanese plugin
+# -------------------------------------
+# Requires ddc
+########################################
+[[plugins]]
+# English reading or writing plugin for Japanese.
+repo = 'uesseu/nin-english.vim'
+on_event = 'VimEnter'
+hook_add = '''
+function! s:start_ninenglish()
+  let g:nin_english#dict_dir = $HOME . '/.local/share/EJDict'
+  call extend(g:ddc_source_options, #{ninenglish: #{ mark: 'English', isVolatile: v:true}})
+  call extend(g:ddc_source_params, #{ninenglish: #{dict_dir: g:nin_english#dict_dir}})
+  let g:ddc_sources = g:ddc_sources + ['ninenglish']
+
+  if isdirectory(g:nin_english#dict_dir) == 0
+    call mkdir(g:nin_english#dict_dir, 'p')
+    call InstallEJDict()
+  endif
+endfunction
+autocmd User DDCPre call s:start_ninenglish()
+
+command! NinEnglish call s:ninenglish()
+function! s:ninenglish()
+  nnoremap <buffer> K :call NinCloseFloat()<CR>:call EnglishSearch()<CR>
+  call NinEnglishHilight()
+  imap <buffer> <C-k> <ESC>:call NinCloseFloat()<CR>:call EnglishSearch()<CR>i
+endfunction
+'''
