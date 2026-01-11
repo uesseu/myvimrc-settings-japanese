@@ -1,0 +1,29 @@
+########################################
+# Japanese IME for vim (SKK style)
+# -------------------------------------
+# Requires ddc
+########################################
+[[plugins]]
+# Japanese IME for vim
+repo = 'vim-skk/skkeleton'
+on_event = 'VimEnter'
+hook_add = '''
+function! s:start_skkeleton()
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
+call skkeleton#config({"globalDictionaries": [$HOME."/.skk/SKK-JISYO.L" ]})
+call extend( g:ddc_source_options,
+    \  #{
+    \   skkeleton: #{ 
+    \     mark: 'skkeleton',
+    \     matchers: [],
+    \     sorters: [],
+    \     converters: [],
+    \     isVolatile: v:true,
+    \     minAutoCompleteLength: 1
+    \   }})
+endfunction
+autocmd VimEnter * call s:start_skkeleton()
+'''
+
+
