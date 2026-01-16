@@ -19,7 +19,7 @@ function! s:start_ninenglish()
     call InstallEJDict()
   endif
 endfunction
-autocmd User DDCPre call s:start_ninenglish()
+autocmd VimEnter * call s:start_ninenglish()
 
 command! NinEnglish call s:ninenglish()
 function! s:ninenglish()
